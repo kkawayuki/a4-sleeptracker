@@ -1,7 +1,7 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>
-      Blank
+      kykawa sleep tracker
     </ion-title>
   </ion-toolbar>
 </ion-header>
@@ -9,12 +9,51 @@
 <ion-content [fullscreen]="true">
   <ion-header collapse="condense">
     <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
+      <ion-title size="large">kykawa sleep tracker</ion-title>
     </ion-toolbar>
   </ion-header>
 
-  <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
-  </div>
+  <!-- ionic and other application builders with UI function similar to html/css/-->
+  <ion-card>
+  <ion-card-header><ion-card-title>Last Night</ion-card-title></ion-card-header>
+  <ion-card-content>
+    <ion-item>
+      <ion-label>Bedtime</ion-label>
+      <ion-datetime-button datetime="bed"></ion-datetime-button>
+    </ion-item>
+    <ion-item>
+      <ion-label>Woke up</ion-label>
+      <ion-datetime-button datetime="wake"></ion-datetime-button>
+    </ion-item>
+    <ion-button expand="block" (click)="logSleep()" [disabled]="!validSleep">Log Sleep</ion-button>
+  </ion-card-content>
+</ion-card>
+
+<ion-card>
+  <ion-card-header><ion-card-title>Rate Your Sleepiness</ion-card-title></ion-card-header>
+  <ion-card-content>
+    <ion-item>
+      <ion-select label="Sleepiness" placeholder="Pick 1–7" interface="action-sheet" [(ngModel)]="sleepiness">
+        @for (label of scaleLabels; track $index) {
+          <ion-select-option [value]="$index + 1">{{ $index + 1 }}: {{ label }}</ion-select-option>
+        }
+      </ion-select>
+    </ion-item>
+    <ion-button expand="block" (click)="logSleepiness()" [disabled]="sleepiness === null">Log Sleepiness</ion-button>
+  </ion-card-content>
+</ion-card>
+
+<!-- 
+1) keepContentsMounted prevents unloading of picker when covered, 
+important to have buttons persist 
+
+2) ion modals are screen pop-ups that obscure the current screen
+-->
+<ion-modal [keepContentsMounted]="true">
+  <ng-template><ion-datetime id="bed" [(ngModel)]="bedTime"></ion-datetime></ng-template>
+</ion-modal>
+<ion-modal [keepContentsMounted]="true">
+  <ng-template><ion-datetime id="wake" [(ngModel)]="wakeTime"></ion-datetime></ng-template>
+</ion-modal>
 </ion-content>
+
