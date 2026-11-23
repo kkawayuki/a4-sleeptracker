@@ -15,7 +15,7 @@
 
   <!-- ionic and other application builders with UI function similar to html/css/-->
   <ion-card>
-  <ion-card-header><ion-card-title>Last Night</ion-card-title></ion-card-header>
+  <ion-card-header><ion-card-title>Last Night's Rest</ion-card-title></ion-card-header>
   <ion-card-content>
     <ion-item>
       <ion-label>Bedtime</ion-label>
@@ -42,6 +42,19 @@
     <ion-button expand="block" (click)="logSleepiness()" [disabled]="sleepiness === null">Log Sleepiness</ion-button>
   </ion-card-content>
 </ion-card>
+
+<!--viewing data using dateString(), summaryString() methods build in to existing classes-->
+<ion-list>
+  <ion-list-header>History</ion-list-header>
+  @for (entry of recentData; track entry.id) {
+    <ion-item>
+      <ion-label>
+        <h2>{{ entry.dateString() }}</h2>
+        <p>{{ entry.summaryString() }}</p>
+      </ion-label>
+    </ion-item>
+  }
+</ion-list>
 
 <!-- 
 1) keepContentsMounted prevents unloading of picker when covered, 

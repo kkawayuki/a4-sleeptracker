@@ -10,8 +10,7 @@ import { FormsModule } from '@angular/forms';
 //rendered components
 import { IonHeader, IonToolbar, IonTitle, IonContent, IonCard, IonCardHeader, IonCardTitle,
          IonCardContent, IonItem, IonLabel, IonDatetime, IonDatetimeButton, IonModal, IonButton, 
-		 IonSelect,
-		 IonSelectOption} from '@ionic/angular/standalone';
+		 IonSelect, IonList, IonListHeader, IonSelectOption} from '@ionic/angular/standalone';
 
 @Component({
   selector: 'app-home',
@@ -21,7 +20,7 @@ import { IonHeader, IonToolbar, IonTitle, IonContent, IonCard, IonCardHeader, Io
   //update imported components 
   imports: [FormsModule, IonHeader, IonToolbar, IonTitle, IonContent, IonCard, IonCardHeader, IonCardTitle,
           IonCardContent, IonItem, IonLabel, IonDatetime, IonDatetimeButton, IonModal, IonButton, IonSelect,
-			IonSelectOption],
+			IonSelectOption, IonList, IonListHeader],
 })
 export class HomePage {
   constructor(public sleepService:SleepService) {
@@ -41,6 +40,7 @@ export class HomePage {
 		console.log(this.allSleepData);
 	}
 
+	//----getters----
 	/* Ionic doesn't allow bindings to static variables, so this getter can be used instead. */
 	get allSleepData() {
 		return SleepService.AllSleepData;
@@ -49,6 +49,11 @@ export class HomePage {
 	//helper method based on fields 
 	get validSleep() { return new Date(this.wakeTime) > new Date(this.bedTime); }
 
+	get recentData(){
+		return[...this.allSleepData].reverse(); //most recent at top
+	}
+
+	//----logs----
 	//use sleepservice method to log overnightsleepdata based on bed/waketime
 	logSleep() {
   		this.sleepService.logOvernightData(new OvernightSleepData(new Date(this.bedTime), new Date(this.wakeTime)));
@@ -58,4 +63,7 @@ export class HomePage {
 		this.sleepService.logSleepinessData(new StanfordSleepinessData(this.sleepiness!, new Date()));
 		this.sleepiness = null; // reset so the next log starts fresh
 	}
+
+	//viewing logged data 
+
 }

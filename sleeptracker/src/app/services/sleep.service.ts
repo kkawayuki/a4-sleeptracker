@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { SleepData } from '../data/sleep-data';
 import { OvernightSleepData } from '../data/overnight-sleep-data';
 import { StanfordSleepinessData } from '../data/stanford-sleepiness-data';
-
+import { Preferences } from '@capacitor/preferences'; //browser uses localstorage, phone uses native storage
 @Injectable({
   providedIn: 'root'
 })
@@ -14,9 +14,33 @@ export class SleepService {
 
 	constructor() {
 		if(SleepService.LoadDefaultData) {
-			this.addDefaultData();
+			this.load();
+			// //load dummy data 
+			// this.addDefaultData();
 		SleepService.LoadDefaultData = false;
 	}
+	}
+
+	//write to device storage
+	private save()
+	{
+		Preferences.set({key: 'sleepData', value: JSON.stringify(SleepService.AllSleepData)});
+	}
+
+	//load saved entries on startup/fall back to dummy data on intial launch
+	private async load() {
+		const { value } = await Preferences.get({ key: 'sleepData' });
+		if (!value) {
+			this.addDefaultData();
+			return;
+		}
+		for (const o of JSON.parse(value)) {
+			if (o.sleepStart) {
+			this.logOvernightData(new OvernightSleepData(new Date(o.sleepStart), new Date(o.sleepEnd)));
+			} else {
+			this.logSleepinessData(new StanfordSleepinessData(o.loggedValue, new Date(o.loggedAt)));
+			}
+		}
 	}
 
 	private addDefaultData() {
@@ -41,10 +65,12 @@ export class SleepService {
 	public logOvernightData(sleepData:OvernightSleepData) {
 		SleepService.AllSleepData.push(sleepData);
 		SleepService.AllOvernightData.push(sleepData);
+		this.save(); //update all sleep data with new entry
 	}
 
 	public logSleepinessData(sleepData:StanfordSleepinessData) {
 		SleepService.AllSleepData.push(sleepData);
 		SleepService.AllSleepinessData.push(sleepData);
+		this.save(); //update all sleep data with new entry
 	}
 }
