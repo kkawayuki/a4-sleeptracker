@@ -10,7 +10,7 @@ import { FormsModule } from '@angular/forms';
 //rendered components
 import { IonHeader, IonToolbar, IonTitle, IonContent, IonCard, IonCardHeader, IonCardTitle,
          IonCardContent, IonItem, IonLabel, IonDatetime, IonDatetimeButton, IonModal, IonButton, 
-		 IonSelect, IonList, IonListHeader, IonSelectOption} from '@ionic/angular/standalone';
+		 IonSelect, IonList, IonListHeader, IonSelectOption, IonItemSliding, IonItemOptions, IonItemOption} from '@ionic/angular/standalone';
 
 @Component({
   selector: 'app-home',
@@ -20,7 +20,7 @@ import { IonHeader, IonToolbar, IonTitle, IonContent, IonCard, IonCardHeader, Io
   //update imported components 
   imports: [FormsModule, IonHeader, IonToolbar, IonTitle, IonContent, IonCard, IonCardHeader, IonCardTitle,
           IonCardContent, IonItem, IonLabel, IonDatetime, IonDatetimeButton, IonModal, IonButton, IonSelect,
-			IonSelectOption, IonList, IonListHeader],
+			IonSelectOption, IonList, IonListHeader, IonItemSliding, IonItemOptions, IonItemOption],
 })
 export class HomePage {
   constructor(public sleepService:SleepService) {

@@ -73,4 +73,12 @@ export class SleepService {
 		SleepService.AllSleepinessData.push(sleepData);
 		this.save(); //update all sleep data with new entry
 	}
+
+	//method to remove entries from list
+	public deleteData(sleepData:SleepData) {
+		SleepService.AllSleepData = SleepService.AllSleepData.filter(d => d.id !== sleepData.id);
+		SleepService.AllOvernightData = SleepService.AllOvernightData.filter(d => d.id !== sleepData.id);
+		SleepService.AllSleepinessData = SleepService.AllSleepinessData.filter(d => d.id !== sleepData.id);
+		this.save();
+	}
 }

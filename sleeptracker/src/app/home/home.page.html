@@ -47,12 +47,19 @@
 <ion-list>
   <ion-list-header>History</ion-list-header>
   @for (entry of recentData; track entry.id) {
-    <ion-item>
-      <ion-label>
-        <h2>{{ entry.dateString() }}</h2>
-        <p>{{ entry.summaryString() }}</p>
-      </ion-label>
-    </ion-item>
+    @for (entry of recentData; track entry.id) {
+      <ion-item-sliding>
+        <ion-item>
+          <ion-label>
+            <h2>{{ entry.dateString() }}</h2>
+            <p>{{ entry.summaryString() }}</p>
+          </ion-label>
+        </ion-item>
+        <ion-item-options side="end">
+          <ion-item-option color="danger" (click)="sleepService.deleteData(entry)">Delete</ion-item-option>
+        </ion-item-options>
+      </ion-item-sliding>
+    }
   }
 </ion-list>
 
