@@ -83,7 +83,4 @@ export class HomePage {
 		this.sleepService.deleteData(entry);
 		this.showToast('Entry deleted');
 	}
-
-	//viewing logged data 
-
 }
