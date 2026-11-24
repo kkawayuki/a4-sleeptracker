@@ -10,7 +10,8 @@ import { FormsModule } from '@angular/forms';
 //rendered components
 import { IonHeader, IonToolbar, IonTitle, IonContent, IonCard, IonCardHeader, IonCardTitle,
          IonCardContent, IonItem, IonLabel, IonDatetime, IonDatetimeButton, IonModal, IonButton, 
-		 IonSelect, IonList, IonListHeader, IonSelectOption, IonItemSliding, IonItemOptions, IonItemOption} from '@ionic/angular/standalone';
+		 IonSelect, IonList, IonListHeader, IonSelectOption, IonItemSliding, IonItemOptions, IonItemOption,
+		 IonNote, ToastController} from '@ionic/angular/standalone';
 
 @Component({
   selector: 'app-home',
@@ -20,11 +21,22 @@ import { IonHeader, IonToolbar, IonTitle, IonContent, IonCard, IonCardHeader, Io
   //update imported components 
   imports: [FormsModule, IonHeader, IonToolbar, IonTitle, IonContent, IonCard, IonCardHeader, IonCardTitle,
           IonCardContent, IonItem, IonLabel, IonDatetime, IonDatetimeButton, IonModal, IonButton, IonSelect,
-			IonSelectOption, IonList, IonListHeader, IonItemSliding, IonItemOptions, IonItemOption],
+			IonSelectOption, IonList, IonListHeader, IonItemSliding, IonItemOptions, IonItemOption, IonNote],
 })
 export class HomePage {
-  constructor(public sleepService:SleepService) {
+  constructor(public sleepService:SleepService, private toastController:ToastController) {
 
+	}
+
+	//brief confirmation popup at the bottom of the screen so users know an action went through
+	private async showToast(message:string) {
+		const toast = await this.toastController.create({
+			message: message,
+			duration: 1500,
+			position: 'bottom',
+			color: 'primary'
+		});
+		await toast.present();
 	}
 	//simple fields
 	bedTime: string = new Date(new Date().setHours(-1, 0, 0, 0)).toISOString();
@@ -57,11 +69,19 @@ export class HomePage {
 	//use sleepservice method to log overnightsleepdata based on bed/waketime
 	logSleep() {
   		this.sleepService.logOvernightData(new OvernightSleepData(new Date(this.bedTime), new Date(this.wakeTime)));
-	}	
+		this.showToast('Sleep logged');
+	}
 
 	logSleepiness() {
 		this.sleepService.logSleepinessData(new StanfordSleepinessData(this.sleepiness!, new Date()));
 		this.sleepiness = null; // reset so the next log starts fresh
+		this.showToast('Sleepiness logged');
+	}
+
+	//remove an entry from history and confirm it
+	deleteEntry(entry:SleepData) {
+		this.sleepService.deleteData(entry);
+		this.showToast('Entry deleted');
 	}
 
 	//viewing logged data 

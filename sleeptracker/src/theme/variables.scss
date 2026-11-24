@@ -1,11 +1,15 @@
 // For information on how to create your own theme, please see:
 // http://ionicframework.com/docs/theming/
 
+// Primary color: soft pink (#e798b7), with all variants derived from it so they match.
+// - rgb: same color as comma-separated values (used for transparent overlays)
+// - contrast: dark text, since white text on light pink is hard to read
+// - shade: ~12% darker (pressed state), tint: ~10% lighter (hover state)
 :root {
     --ion-color-primary: #e798b7;
-    --ion-color-primary-rgb: 124, 108, 240;
-    --ion-color-primary-contrast: #ffffff;
-    --ion-color-primary-contrast-rgb: 255, 255, 255;
-    --ion-color-primary-shade: #d35fc9;
-    --ion-color-primary-tint: #cd375f;
+    --ion-color-primary-rgb: 231, 152, 183;
+    --ion-color-primary-contrast: #000000;
+    --ion-color-primary-contrast-rgb: 0, 0, 0;
+    --ion-color-primary-shade: #cb86a1;
+    --ion-color-primary-tint: #e9a2be;
 }
